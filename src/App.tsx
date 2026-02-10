@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  GraduationCap,
   Briefcase,
-  Wrench,
   Target,
-  Award,
   CheckCircle2,
   Coins,
   ScrollText,
@@ -458,7 +455,7 @@ Salam hormat,
     },
   ];
 
-  const handleDragEnd = (event: any, info: any) => {
+  const handleDragEnd = (_: any, info: any) => {
     if (info.offset.x < -100 && currentSlide < slides.length - 1)
       setCurrentSlide(currentSlide + 1);
     if (info.offset.x > 100 && currentSlide > 0)
