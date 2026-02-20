@@ -20,7 +20,7 @@ import {
 const PERMANENT_IMAGE_URL = "https://i.ibb.co.com/tT5jSqmj/Nur-Wahyudi.jpg";
 
 const MY_CERTIFICATES = [
-  { name: "Sertifikat Kompetensi Akuntansi", url: "https://i.ibb.co.com/v4RWFG4F/Sertifikat-Kompetensi-page-0001.jpg" },
+  { name: "Sertifikat Kompetensi Akuntansi", url: "https://i.ibb.co.com/v4RWFG4F/Sertifikat-Competensi-page-0001.jpg" },
   { name: "Sertifikat Organisasi", url: "https://i.ibb.co.com/VYFC0gMJ/Sertifikat-OSIS-Nur-Wahyudi-page-0001.jpg" },
   { name: "Sertifikat Prakerin GRAMEDIA", url: "https://i.ibb.co.com/wZpZ0tBQ/Sertifikat-PT-KOMPAS-GRAMEDIA-page-0001.jpg" },
   { name: "Sertifikat PT. AEON STORE INDONESIA", url: "https://i.ibb.co.com/ZR6n6TF9/Sertifikat-PT-AEON-STORE-INDONESIA-page-0001.jpg" },
@@ -28,47 +28,7 @@ const MY_CERTIFICATES = [
 ];
 
 export default function App() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isVoiceEnabled, setIsVoiceEnabled] = useState(true);
-  const SLIDE_DURATION = 10000; // 10 detik agar narasi selesai bicara
-
-  // FUNGSI SUARA (TEXT TO SPEECH)
-  const speak = (text: string) => {
-    if (!isVoiceEnabled) return;
-    window.speechSynthesis.cancel(); // Hentikan suara sebelumnya
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'id-ID'; // Bahasa Indonesia
-    utterance.rate = 1.0;
-    window.speechSynthesis.speak(utterance);
-  };
-
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  }, [slides.length]);
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
-
-  // Jalankan suara setiap kali slide berubah
-  useEffect(() => {
-    const slideInfo = slides[currentSlide];
-    const speechText = `${slideInfo.title}. ${slideInfo.speech}`;
-    speak(speechText);
-  }, [currentSlide]);
-
-  useEffect(() => {
-    let interval: any;
-    if (isPlaying) {
-      interval = setInterval(() => { nextSlide(); }, SLIDE_DURATION);
-    }
-    return () => {
-      clearInterval(interval);
-      window.speechSynthesis.cancel();
-    };
-  }, [isPlaying, nextSlide]);
-
+  // PINDAHKAN DEFINISI SLIDES KE ATAS AGAR BISA DIAKSES OLEH FUNGSI LAIN
   const handleWhatsApp = () => {
     window.open(`https://wa.me/62881024040191`, "_blank");
   };
@@ -196,7 +156,7 @@ export default function App() {
             </button>
             <div className="flex-1 flex items-center gap-4 bg-slate-800 p-6 rounded-3xl border-b-4 border-slate-950">
               <Mail className="text-emerald-500" size={32} />
-              <div className="text-left text-xs font-mono">yudi02012001@gmail.com</div>
+              <div className="text-left text-xs font-mono font-bold">yudi02012001@gmail.com</div>
             </div>
           </div>
           <div className="flex items-center gap-3 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
@@ -208,14 +168,51 @@ export default function App() {
     },
   ];
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(true);
+  const SLIDE_DURATION = 10000;
+
+  const speak = (text: string) => {
+    if (!isVoiceEnabled || typeof window === "undefined") return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'id-ID';
+    utterance.rate = 1.0;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+  }, [slides.length]);
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  };
+
+  useEffect(() => {
+    const slideInfo = slides[currentSlide];
+    const speechText = `${slideInfo.title}. ${slideInfo.speech}`;
+    speak(speechText);
+  }, [currentSlide, isVoiceEnabled]); // Tambahkan dependency isVoiceEnabled
+
+  useEffect(() => {
+    let interval: any;
+    if (isPlaying) {
+      interval = setInterval(() => { nextSlide(); }, SLIDE_DURATION);
+    }
+    return () => {
+      clearInterval(interval);
+      if (typeof window !== "undefined") window.speechSynthesis.cancel();
+    };
+  }, [isPlaying, nextSlide]);
+
   return (
     <div className="w-full h-screen bg-[#020617] text-white flex flex-col font-sans overflow-hidden relative">
-      {/* Progress Bar */}
       <div className="absolute top-0 left-0 w-full h-1.5 bg-white/5 z-50">
         <motion.div key={currentSlide} initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }} className="h-full bg-emerald-500" />
       </div>
 
-      {/* Control Panel */}
       <div className="absolute top-8 left-0 w-full px-8 flex justify-between items-center z-40">
         <div className="bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/5">
           <p className="text-emerald-500 font-mono text-[10px] tracking-widest uppercase">Slide {currentSlide + 1} / {slides.length}</p>
@@ -231,7 +228,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* Slide Area */}
       <div className="relative h-full flex items-center justify-center p-4">
         <AnimatePresence mode="wait">
           <motion.div key={currentSlide} initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -100 }} transition={{ duration: 0.6 }} className="w-full">
@@ -240,7 +236,6 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      {/* Nav Buttons */}
       <div className="absolute bottom-10 left-0 w-full flex justify-between px-10 z-40">
         <button onClick={prevSlide} className="flex items-center gap-2 text-slate-500 hover:text-white font-black uppercase text-xs transition-all"><ChevronLeft /> Back</button>
         <button onClick={nextSlide} className="flex items-center gap-2 text-slate-500 hover:text-white font-black uppercase text-xs transition-all">Next <ChevronRight /></button>
