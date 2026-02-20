@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Briefcase,
@@ -28,7 +28,12 @@ const MY_CERTIFICATES = [
 ];
 
 export default function App() {
-  // PINDAHKAN DEFINISI SLIDES KE ATAS AGAR BISA DIAKSES OLEH FUNGSI LAIN
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const timerRef = useRef<any>(null);
+
   const handleWhatsApp = () => {
     window.open(`https://wa.me/62881024040191`, "_blank");
   };
@@ -52,7 +57,8 @@ export default function App() {
     },
     {
       title: "KATA PENGANTAR",
-      speech: "Besar harapan saya agar Bapak atau Ibu pimpinan berkenan memberikan kesempatan bagi saya untuk bergabung dan berkontribusi.",
+      // TEKS SUARA SEKARANG SAMA PERSIS DENGAN TEKS DI LAYAR
+      speech: "Kepada Bapak atau Ibu Pimpinan yang saya hormati. Melalui portofolio ini, saya bermaksud menyampaikan ketertarikan saya untuk bergabung dan berkontribusi di perusahaan yang Bapak atau Ibu pimpin. Dengan latar belakang pendidikan Akuntansi serta pengalaman kerja profesional yang saya miliki, saya telah terbiasa bekerja dengan ketelitian tinggi, integritas, dan tanggung jawab penuh dalam mengelola administrasi serta keuangan. Besar harapan saya agar Bapak atau Ibu berkenan memberikan kesempatan bagi saya untuk mengikuti tahapan seleksi selanjutnya. Atas perhatian dan kesempatan yang Bapak atau Ibu berikan, saya ucapkan terima kasih. Hormat saya, Nur Wahyudi.",
       content: (
         <div className="w-full max-w-5xl mx-auto p-6 mt-16 text-left bg-slate-900/60 rounded-3xl border border-slate-800 shadow-2xl">
           <div className="flex items-center gap-3 mb-6 border-b border-emerald-500/30 pb-4">
@@ -60,7 +66,9 @@ export default function App() {
             <h2 className="text-2xl font-black text-white uppercase">Kata Pengantar</h2>
           </div>
           <p className="text-slate-200 leading-relaxed italic font-light text-sm md:text-lg">
-            "Melalui portofolio ini, saya bermaksud menyampaikan ketertarikan saya untuk bergabung. Dengan latar belakang pendidikan Akuntansi, saya terbiasa bekerja dengan ketelitian tinggi dan integritas penuh."
+            "Kepada Bapak/Ibu Pimpinan yang saya hormati, <br/><br/>
+            Melalui portofolio ini, saya bermaksud menyampaikan ketertarikan saya untuk bergabung dan berkontribusi di perusahaan yang Bapak/Ibu pimpin. Dengan latar belakang pendidikan Akuntansi serta pengalaman kerja profesional yang saya miliki, saya telah terbiasa bekerja dengan ketelitian tinggi, integritas, dan tanggung jawab penuh dalam mengelola administrasi serta keuangan. <br/><br/>
+            Besar harapan saya agar Bapak/Ibu berkenan memberikan kesempatan bagi saya untuk mengikuti tahapan seleksi selanjutnya. Atas perhatian dan kesempatan yang Bapak/Ibu berikan, saya ucapkan terima kasih."
           </p>
           <p className="mt-8 text-right text-emerald-500 font-black uppercase text-xl">Hormat Saya, Nur Wahyudi</p>
         </div>
@@ -68,7 +76,7 @@ export default function App() {
     },
     {
       title: "PENGALAMAN: PT KOVALEN MINING",
-      speech: "Pengalaman di PT Kovalen Mining sebagai staff administrasi sejak tahun 2020 hingga 2025.",
+      speech: "Pengalaman kerja di PT Kovalen Mining sebagai staff administrasi dari Desember 2020 sampai Januari 2025. Tugas saya meliputi manajemen keuangan, pengarsipan dokumen, dan penyusunan laporan keuangan bulanan maupun tahunan.",
       content: (
         <div className="w-full max-w-5xl mx-auto p-6 space-y-6 mt-16 text-left">
           <div className="flex items-center gap-4">
@@ -82,9 +90,9 @@ export default function App() {
             <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
               <h4 className="text-emerald-400 font-black mb-2 uppercase text-xs">Job Desk:</h4>
               <ul className="text-slate-300 text-sm space-y-1">
-                <li>• Manajemen keuangan harian.</li>
-                <li>• Pengarsipan dokumen terstruktur.</li>
-                <li>• Laporan Bulanan & Tahunan.</li>
+                <li>• Manajemen keuangan & arus kas harian.</li>
+                <li>• Pengarsipan dokumen administratif terstruktur.</li>
+                <li>• Penyusunan Laporan keuangan Bulanan & Tahunan.</li>
               </ul>
             </div>
             <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 flex flex-col justify-center">
@@ -97,7 +105,7 @@ export default function App() {
     },
     {
       title: "PENGALAMAN: TRANSMART",
-      speech: "Pernah bekerja sebagai kasir di Transmart Carrefour selama tahun 2020.",
+      speech: "Pengalaman sebagai Kasir di Transmart Carrefour. Saya bertanggung jawab memproses transaksi pelanggan dengan akurat dan menyusun laporan transaksi kas harian.",
       content: (
         <div className="w-full max-w-5xl mx-auto p-6 space-y-6 mt-16 text-left">
           <div className="flex items-center gap-4">
@@ -108,32 +116,18 @@ export default function App() {
             </div>
           </div>
           <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
-            <p className="text-slate-300 text-sm italic">"Memproses transaksi pelanggan dengan akurat dan menyusun laporan kas harian."</p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "PENGALAMAN: PT AEON STORE",
-      speech: "Pernah menjabat sebagai pramuniaga di PT Aeon Mall BSD pada tahun 2019.",
-      content: (
-        <div className="w-full max-w-5xl mx-auto p-6 space-y-6 mt-16 text-left">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-emerald-500 rounded-2xl text-slate-900"><Briefcase size={24} /></div>
-            <div>
-              <h2 className="text-2xl md:text-3xl font-black text-white uppercase">PT AEON MALL BSD</h2>
-              <p className="text-emerald-400 font-bold uppercase text-xs">Pramuniaga (Apr 2019 - Nov 2019)</p>
-            </div>
-          </div>
-          <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
-            <p className="text-slate-300 text-sm italic">"Melayani pelanggan secara profesional dan menjaga standar kerapihan area toko."</p>
+             <h4 className="text-emerald-400 font-black mb-2 uppercase text-xs">Kegiatan:</h4>
+             <ul className="text-slate-300 text-sm space-y-1">
+                <li>• Memproses transaksi pelanggan dengan akurat.</li>
+                <li>• Menyusun laporan transaksi kas harian.</li>
+              </ul>
           </div>
         </div>
       ),
     },
     ...MY_CERTIFICATES.map((cert) => ({
       title: "SERTIFIKAT",
-      speech: `Ini adalah ${cert.name} yang saya miliki.`,
+      speech: `Menampilkan ${cert.name}.`,
       content: (
         <div className="flex flex-col items-center justify-center gap-4 p-4 mt-12">
           <h2 className="text-emerald-400 font-black text-lg uppercase text-center italic">{cert.name}</h2>
@@ -145,7 +139,7 @@ export default function App() {
     })),
     {
       title: "KONTAK",
-      speech: "Silakan hubungi saya melalui WhatsApp atau Email untuk jadwal wawancara. Terima kasih.",
+      speech: "Terima kasih telah melihat portofolio saya. Anda dapat menghubungi saya melalui WhatsApp atau Email resmi yang tertera di layar untuk informasi lebih lanjut atau jadwal wawancara.",
       content: (
         <div className="flex flex-col items-center justify-center text-center space-y-6 p-6 mt-16">
           <h2 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter">KONTAK</h2>
@@ -159,70 +153,76 @@ export default function App() {
               <div className="text-left text-xs font-mono font-bold">yudi02012001@gmail.com</div>
             </div>
           </div>
-          <div className="flex items-center gap-3 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
-             <MapPin className="text-emerald-500" size={16} />
-             <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Pagedangan, Tangerang - Banten</span>
-          </div>
         </div>
       ),
     },
   ];
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isVoiceEnabled, setIsVoiceEnabled] = useState(true);
-  const SLIDE_DURATION = 10000;
-
-  const speak = (text: string) => {
-    if (!isVoiceEnabled || typeof window === "undefined") return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'id-ID';
-    utterance.rate = 1.0;
-    window.speechSynthesis.speak(utterance);
-  };
-
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    setProgress(0);
   }, [slides.length]);
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    setProgress(0);
   };
 
-  useEffect(() => {
-    const slideInfo = slides[currentSlide];
-    const speechText = `${slideInfo.title}. ${slideInfo.speech}`;
-    speak(speechText);
-  }, [currentSlide, isVoiceEnabled]); // Tambahkan dependency isVoiceEnabled
+  const speak = useCallback((text: string) => {
+    if (typeof window === "undefined") return;
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'id-ID';
+    utterance.rate = 1.0;
+
+    // KUNCI SINKRONISASI: Pindah slide hanya setelah suara selesai
+    utterance.onend = () => {
+      if (isPlaying) {
+        // Beri jeda 1 detik setelah bicara selesai baru pindah
+        setTimeout(() => nextSlide(), 1000);
+      }
+    };
+
+    if (isVoiceEnabled) {
+      window.speechSynthesis.speak(utterance);
+    } else {
+      // Jika suara mati, gunakan timer manual 8 detik per slide
+      timerRef.current = setTimeout(() => {
+        if (isPlaying) nextSlide();
+      }, 8000);
+    }
+  }, [isVoiceEnabled, isPlaying, nextSlide]);
 
   useEffect(() => {
-    let interval: any;
-    if (isPlaying) {
-      interval = setInterval(() => { nextSlide(); }, SLIDE_DURATION);
-    }
+    speak(slides[currentSlide].speech);
     return () => {
-      clearInterval(interval);
-      if (typeof window !== "undefined") window.speechSynthesis.cancel();
+      window.speechSynthesis.cancel();
+      if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [isPlaying, nextSlide]);
+  }, [currentSlide, speak]);
 
   return (
-    <div className="w-full h-screen bg-[#020617] text-white flex flex-col font-sans overflow-hidden relative">
-      <div className="absolute top-0 left-0 w-full h-1.5 bg-white/5 z-50">
-        <motion.div key={currentSlide} initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: SLIDE_DURATION / 1000, ease: "linear" }} className="h-full bg-emerald-500" />
-      </div>
+    <div className="w-full h-screen bg-[#020617] text-white flex flex-col font-sans overflow-hidden relative" onClick={() => { if(!isVoiceEnabled) nextSlide() }}>
+      
+      {/* Tombol Mulai (Overlay jika suara belum aktif) */}
+      {!isVoiceEnabled && (
+        <div className="absolute top-2 right-20 z-[60] animate-pulse">
+          <span className="text-[10px] bg-red-500 px-2 py-1 rounded text-white">Voice Muted</span>
+        </div>
+      )}
 
+      {/* Control Panel */}
       <div className="absolute top-8 left-0 w-full px-8 flex justify-between items-center z-40">
         <div className="bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/5">
           <p className="text-emerald-500 font-mono text-[10px] tracking-widest uppercase">Slide {currentSlide + 1} / {slides.length}</p>
           <h2 className="text-lg font-black uppercase italic">{slides[currentSlide].title}</h2>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => setIsVoiceEnabled(!isVoiceEnabled)} className="p-4 bg-white/5 hover:bg-emerald-500 rounded-2xl transition-all border border-white/10">
+          <button onClick={(e) => { e.stopPropagation(); setIsVoiceEnabled(!isVoiceEnabled); }} className="p-4 bg-white/5 hover:bg-emerald-500 rounded-2xl transition-all border border-white/10">
             {isVoiceEnabled ? <Volume2 size={24} /> : <VolumeX size={24} />}
           </button>
-          <button onClick={() => setIsPlaying(!isPlaying)} className="p-4 bg-white/5 hover:bg-emerald-500 rounded-2xl transition-all border border-white/10">
+          <button onClick={(e) => { e.stopPropagation(); setIsPlaying(!isPlaying); }} className="p-4 bg-white/5 hover:bg-emerald-500 rounded-2xl transition-all border border-white/10">
             {isPlaying ? <Pause size={24} /> : <Play size={24} />}
           </button>
         </div>
@@ -230,15 +230,15 @@ export default function App() {
 
       <div className="relative h-full flex items-center justify-center p-4">
         <AnimatePresence mode="wait">
-          <motion.div key={currentSlide} initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -100 }} transition={{ duration: 0.6 }} className="w-full">
+          <motion.div key={currentSlide} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05 }} transition={{ duration: 0.5 }} className="w-full">
             {slides[currentSlide].content}
           </motion.div>
         </AnimatePresence>
       </div>
 
       <div className="absolute bottom-10 left-0 w-full flex justify-between px-10 z-40">
-        <button onClick={prevSlide} className="flex items-center gap-2 text-slate-500 hover:text-white font-black uppercase text-xs transition-all"><ChevronLeft /> Back</button>
-        <button onClick={nextSlide} className="flex items-center gap-2 text-slate-500 hover:text-white font-black uppercase text-xs transition-all">Next <ChevronRight /></button>
+        <button onClick={(e) => { e.stopPropagation(); prevSlide(); }} className="flex items-center gap-2 text-slate-500 hover:text-white font-black uppercase text-xs transition-all"><ChevronLeft /> Back</button>
+        <button onClick={(e) => { e.stopPropagation(); nextSlide(); }} className="flex items-center gap-2 text-slate-500 hover:text-white font-black uppercase text-xs transition-all">Next <ChevronRight /></button>
       </div>
     </div>
   );
