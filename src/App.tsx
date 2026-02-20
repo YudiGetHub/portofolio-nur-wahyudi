@@ -60,10 +60,10 @@ export default function App() {
       content: (
         <div className="w-full max-w-5xl mx-auto p-6 mt-16 text-left bg-slate-900/60 rounded-3xl border border-slate-800 shadow-2xl">
           <div className="flex items-center gap-3 mb-6 border-b border-emerald-500/30 pb-4">
-            <ScrollText className="text-emerald-500" size={28} />
+            <div className="p-2 bg-emerald-500 rounded-lg text-slate-900"><ScrollText size={20} /></div>
             <h2 className="text-2xl font-black text-white uppercase">Kata Pengantar</h2>
           </div>
-          <p className="text-slate-200 leading-relaxed italic font-light text-sm md:text-base lg:text-lg">
+          <p className="text-slate-200 leading-relaxed italic font-light text-sm md:text-base">
             "Kepada Bapak/Ibu Pimpinan yang saya hormati, <br/><br/>
             Melalui portofolio ini, saya bermaksud menyampaikan ketertarikan saya untuk bergabung dan berkontribusi di perusahaan yang Bapak/Ibu pimpin. Dengan latar belakang pendidikan Akuntansi serta pengalaman kerja profesional yang saya miliki, saya telah terbiasa bekerja dengan ketelitian tinggi, integritas, dan tanggung jawab penuh dalam mengelola administrasi serta keuangan. <br/><br/>
             Besar harapan saya agar Bapak/Ibu berkenan memberikan kesempatan bagi saya untuk mengikuti tahapan seleksi selanjutnya. Atas perhatian dan kesempatan yang Bapak/Ibu berikan, saya ucapkan terima kasih."
@@ -73,60 +73,8 @@ export default function App() {
       ),
     },
     {
-      title: "PENGALAMAN: PT KOVALEN MINING",
-      speech: "Pengalaman kerja di PT Kovalen Mining sebagai staff administrasi dari Desember 2020 sampai Januari 2025. Tugas saya meliputi manajemen keuangan, pengarsipan dokumen, dan penyusunan laporan keuangan bulanan maupun tahunan.",
-      content: (
-        <div className="w-full max-w-5xl mx-auto p-6 space-y-6 mt-16 text-left">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-emerald-500 rounded-2xl text-slate-900"><Briefcase size={24} /></div>
-            <div>
-              <h2 className="text-2xl md:text-3xl font-black text-white uppercase">PT KOVALEN MINING</h2>
-              <p className="text-emerald-400 font-bold uppercase text-xs">Staff Administrasi (Des 2020 - Jan 2025)</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
-              <h4 className="text-emerald-400 font-black mb-2 uppercase text-xs">Job Desk:</h4>
-              <ul className="text-slate-300 text-sm space-y-1">
-                <li>• Manajemen keuangan & arus kas harian.</li>
-                <li>• Pengarsipan dokumen administratif terstruktur.</li>
-                <li>• Penyusunan Laporan keuangan Bulanan & Tahunan.</li>
-              </ul>
-            </div>
-            <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 flex flex-col justify-center">
-              <h4 className="text-emerald-400 font-black mb-1 text-xs"><Coins size={14} /> Gaji Terakhir:</h4>
-              <p className="text-white font-black text-2xl">Rp 4.000.000,-</p>
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "PENGALAMAN: TRANSMART",
-      speech: "Pengalaman sebagai Kasir di Transmart Carrefour dari Januari 2020 hingga Maret 2020. Saya bertanggung jawab memproses transaksi pelanggan dengan akurat dan menyusun laporan transaksi kas harian.",
-      content: (
-        <div className="w-full max-w-5xl mx-auto p-6 space-y-6 mt-16 text-left">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-emerald-500 rounded-2xl text-slate-900"><Briefcase size={24} /></div>
-            <div>
-              <h2 className="text-2xl md:text-3xl font-black text-white uppercase">TRANSMART CARREFOUR</h2>
-              <p className="text-emerald-400 font-bold uppercase text-xs">Cashier (Jan 2020 - Mar 2020)</p>
-            </div>
-          </div>
-          <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
-             <h4 className="text-emerald-400 font-black mb-2 uppercase text-xs">Kegiatan Utama:</h4>
-             <ul className="text-slate-300 text-sm space-y-1">
-                <li>• Memproses transaksi pembayaran pelanggan secara cepat dan akurat.</li>
-                <li>• Menyusun laporan pertanggungjawaban kas harian.</li>
-                <li>• Memberikan pelayanan prima sesuai standar retail.</li>
-              </ul>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "PENGALAMAN: AEON MALL",
-      speech: "Pengalaman sebagai Pramuniaga di PT Aeon Mall BSD pada tahun 2019. Bertugas melayani pelanggan secara profesional dan menjaga standar kerapihan area toko serta ketersediaan produk.",
+      title: "PENGALAMAN: AEON STORE",
+      speech: "Pengalaman kerja pertama saya adalah sebagai Pramuniaga di PT Aeon Mall BSD pada April 2019 hingga November 2019. Tanggung jawab saya meliputi melayani kebutuhan informasi pelanggan di area toko, menata tampilan produk sesuai standar visual merchandising, serta mengontrol stok barang di area penjualan.",
       content: (
         <div className="w-full max-w-5xl mx-auto p-6 space-y-6 mt-16 text-left">
           <div className="flex items-center gap-4">
@@ -136,12 +84,58 @@ export default function App() {
               <p className="text-emerald-400 font-bold uppercase text-xs">Pramuniaga (Apr 2019 - Nov 2019)</p>
             </div>
           </div>
-          <div className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
-             <h4 className="text-emerald-400 font-black mb-2 uppercase text-xs">Tanggung Jawab:</h4>
-             <ul className="text-slate-300 text-sm space-y-1">
-                <li>• Melayani kebutuhan informasi pelanggan di area toko.</li>
-                <li>• Menata tampilan produk sesuai standar visual merchandising.</li>
-                <li>• Mengontrol stok barang di area penjualan.</li>
+          <div className="bg-slate-800/50 p-6 rounded-3xl border border-slate-700">
+             <h4 className="text-emerald-400 font-black mb-3 uppercase text-xs tracking-widest">Tanggung Jawab:</h4>
+             <ul className="text-slate-200 text-sm md:text-base space-y-2">
+                <li className="flex gap-2"><span>•</span> Melayani kebutuhan informasi pelanggan di area toko secara profesional.</li>
+                <li className="flex gap-2"><span>•</span> Menata tampilan produk sesuai standar visual merchandising.</li>
+                <li className="flex gap-2"><span>•</span> Mengontrol stok barang di area penjualan secara berkala.</li>
+              </ul>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "PENGALAMAN: TRANSMART",
+      speech: "Selanjutnya, saya bekerja sebagai Kasir di Transmart Carrefour dari Januari 2020 hingga Maret 2020. Kegiatan utama saya adalah memproses transaksi pembayaran pelanggan secara cepat dan akurat, menyusun laporan pertanggungjawaban kas harian, serta memberikan pelayanan prima sesuai standar retail.",
+      content: (
+        <div className="w-full max-w-5xl mx-auto p-6 space-y-6 mt-16 text-left">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-emerald-500 rounded-2xl text-slate-900"><Briefcase size={24} /></div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-black text-white uppercase">TRANSMART CARREFOUR</h2>
+              <p className="text-emerald-400 font-bold uppercase text-xs">Cashier (Jan 2020 - Mar 2020)</p>
+            </div>
+          </div>
+          <div className="bg-slate-800/50 p-6 rounded-3xl border border-slate-700">
+             <h4 className="text-emerald-400 font-black mb-3 uppercase text-xs tracking-widest">Kegiatan Utama:</h4>
+             <ul className="text-slate-200 text-sm md:text-base space-y-2">
+                <li className="flex gap-2"><span>•</span> Memproses transaksi pembayaran pelanggan secara cepat dan akurat.</li>
+                <li className="flex gap-2"><span>•</span> Menyusun laporan pertanggungjawaban kas harian.</li>
+                <li className="flex gap-2"><span>•</span> Memberikan pelayanan prima sesuai standar retail.</li>
+              </ul>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "PENGALAMAN: PT KOVALEN MINING",
+      speech: "Pengalaman terbaru saya adalah di PT Kovalen Mining sebagai staff administrasi dari Desember 2020 hingga Januari 2025. Job desk saya meliputi manajemen keuangan dan arus kas harian, pengarsipan dokumen administratif yang terstruktur, serta penyusunan laporan keuangan bulanan maupun tahunan.",
+      content: (
+        <div className="w-full max-w-5xl mx-auto p-6 space-y-6 mt-16 text-left">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-emerald-500 rounded-2xl text-slate-900"><Briefcase size={24} /></div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-black text-white uppercase">PT KOVALEN MINING</h2>
+              <p className="text-emerald-400 font-bold uppercase text-xs">Staff Administrasi (Des 2020 - Jan 2025)</p>
+            </div>
+          </div>
+          <div className="bg-slate-800/50 p-6 rounded-3xl border border-slate-700">
+              <h4 className="text-emerald-400 font-black mb-3 uppercase text-xs tracking-widest">Job Desk:</h4>
+              <ul className="text-slate-200 text-sm md:text-base space-y-2">
+                <li className="flex gap-2"><span>•</span> Manajemen keuangan & arus kas harian.</li>
+                <li className="flex gap-2"><span>•</span> Pengarsipan dokumen administratif terstruktur.</li>
+                <li className="flex gap-2"><span>•</span> Penyusunan Laporan keuangan Bulanan & Tahunan.</li>
               </ul>
           </div>
         </div>
@@ -149,7 +143,7 @@ export default function App() {
     },
     ...MY_CERTIFICATES.map((cert) => ({
       title: "SERTIFIKAT",
-      speech: `Menampilkan ${cert.name}.`,
+      speech: `Ini adalah ${cert.name} yang saya miliki.`,
       content: (
         <div className="flex flex-col items-center justify-center gap-4 p-4 mt-12">
           <h2 className="text-emerald-400 font-black text-lg uppercase text-center italic">{cert.name}</h2>
@@ -161,7 +155,7 @@ export default function App() {
     })),
     {
       title: "KONTAK",
-      speech: "Terima kasih telah melihat portofolio saya. Anda dapat menghubungi saya melalui WhatsApp atau Email resmi yang tertera di layar untuk informasi lebih lanjut atau jadwal wawancara.",
+      speech: "Silakan hubungi saya melalui WhatsApp atau Email untuk jadwal wawancara. Terima kasih.",
       content: (
         <div className="flex flex-col items-center justify-center text-center space-y-6 p-6 mt-16">
           <h2 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter">KONTAK</h2>
@@ -174,10 +168,6 @@ export default function App() {
               <Mail className="text-emerald-500 shrink-0" size={32} />
               <div className="text-left text-[10px] md:text-xs font-mono font-bold truncate">yudi02012001@gmail.com</div>
             </div>
-          </div>
-          <div className="flex items-center gap-3 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
-             <MapPin className="text-emerald-500" size={16} />
-             <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Pagedangan, Tangerang - Banten</span>
           </div>
         </div>
       ),
@@ -195,24 +185,12 @@ export default function App() {
   const speak = useCallback((text: string) => {
     if (typeof window === "undefined") return;
     window.speechSynthesis.cancel();
-
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'id-ID';
     utterance.rate = 1.0;
-
-    utterance.onend = () => {
-      if (isPlaying) {
-        setTimeout(() => nextSlide(), 1000);
-      }
-    };
-
-    if (isVoiceEnabled) {
-      window.speechSynthesis.speak(utterance);
-    } else {
-      timerRef.current = setTimeout(() => {
-        if (isPlaying) nextSlide();
-      }, 8000);
-    }
+    utterance.onend = () => { if (isPlaying) setTimeout(() => nextSlide(), 1000); };
+    if (isVoiceEnabled) window.speechSynthesis.speak(utterance);
+    else timerRef.current = setTimeout(() => { if (isPlaying) nextSlide(); }, 8000);
   }, [isVoiceEnabled, isPlaying, nextSlide]);
 
   useEffect(() => {
@@ -225,8 +203,6 @@ export default function App() {
 
   return (
     <div className="w-full h-screen bg-[#020617] text-white flex flex-col font-sans overflow-hidden relative">
-      
-      {/* Control Panel */}
       <div className="absolute top-8 left-0 w-full px-8 flex justify-between items-center z-40">
         <div className="bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/5">
           <p className="text-emerald-500 font-mono text-[10px] tracking-widest uppercase">Slide {currentSlide + 1} / {slides.length}</p>
@@ -241,7 +217,6 @@ export default function App() {
           </button>
         </div>
       </div>
-
       <div className="relative h-full flex items-center justify-center p-4">
         <AnimatePresence mode="wait">
           <motion.div key={currentSlide} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.5 }} className="w-full">
@@ -249,7 +224,6 @@ export default function App() {
           </motion.div>
         </AnimatePresence>
       </div>
-
       <div className="absolute bottom-10 left-0 w-full flex justify-between px-10 z-40">
         <button onClick={prevSlide} className="flex items-center gap-2 text-slate-500 hover:text-white font-black uppercase text-xs transition-all"><ChevronLeft /> Back</button>
         <button onClick={nextSlide} className="flex items-center gap-2 text-slate-500 hover:text-white font-black uppercase text-xs transition-all">Next <ChevronRight /></button>
