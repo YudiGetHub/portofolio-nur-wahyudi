@@ -31,6 +31,7 @@ export default function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(true);
+  const [isBackTracking, setIsBackTracking] = useState(false);
   const timerRef = useRef<any>(null);
 
   const handleWhatsApp = () => {
@@ -49,7 +50,7 @@ export default function App() {
           <div className="text-center md:text-left space-y-2">
             <div className="inline-block px-3 py-1 bg-emerald-500/20 border border-emerald-500 rounded-full text-emerald-400 text-[10px] font-bold uppercase tracking-widest">Available to Work</div>
             <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase leading-tight">NUR WAHYUDI</h1>
-            <p className="text-lg md:text-2xl text-emerald-400 font-bold uppercase tracking-[0.2em]">Staff Administrasi & Akuntansi</p>
+            <p className="text-lg md:text-2xl text-emerald-400 font-bold uppercase tracking-[0.1em]">Administrative Specialist & Accounting Professional</p>
           </div>
         </div>
       ),
@@ -175,26 +176,50 @@ export default function App() {
   ];
 
   const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  }, [slides.length]);
+    // STOP JIKA SUDAH DI AKHIR
+    if (currentSlide === slides.length - 1) {
+      setIsPlaying(false);
+      return;
+    }
+    setIsBackTracking(false);
+    setCurrentSlide((prev) => prev + 1);
+  }, [currentSlide, slides.length]);
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    if (currentSlide > 0) {
+      setIsBackTracking(true); // Tandai bahwa user sedang mundur
+      setCurrentSlide((prev) => prev - 1);
+    }
   };
 
-  const speak = useCallback((text: string) => {
+  const speak = useCallback((text: string, title: string) => {
     if (typeof window === "undefined") return;
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
+    
+    // PESAN BERBEDA JIKA USER MUNDUR (BACK)
+    const finalText = isBackTracking 
+      ? `Kembali menampilkan bagian ${title}.` 
+      : text;
+
+    const utterance = new SpeechSynthesisUtterance(finalText);
     utterance.lang = 'id-ID';
     utterance.rate = 1.0;
-    utterance.onend = () => { if (isPlaying) setTimeout(() => nextSlide(), 1000); };
+
+    utterance.onend = () => {
+      // Hanya lanjut otomatis jika tidak sedang mundur dan masih playing
+      if (isPlaying && !isBackTracking && currentSlide < slides.length - 1) {
+        setTimeout(() => nextSlide(), 1500);
+      }
+    };
+
     if (isVoiceEnabled) window.speechSynthesis.speak(utterance);
-    else timerRef.current = setTimeout(() => { if (isPlaying) nextSlide(); }, 8000);
-  }, [isVoiceEnabled, isPlaying, nextSlide]);
+    else if (isPlaying && !isBackTracking && currentSlide < slides.length - 1) {
+      timerRef.current = setTimeout(() => nextSlide(), 8000);
+    }
+  }, [isVoiceEnabled, isPlaying, isBackTracking, currentSlide, nextSlide, slides.length]);
 
   useEffect(() => {
-    speak(slides[currentSlide].speech);
+    speak(slides[currentSlide].speech, slides[currentSlide].title);
     return () => {
       window.speechSynthesis.cancel();
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -217,16 +242,43 @@ export default function App() {
           </button>
         </div>
       </div>
+
       <div className="relative h-full flex items-center justify-center p-4">
         <AnimatePresence mode="wait">
-          <motion.div key={currentSlide} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.5 }} className="w-full">
+          <motion.div 
+            key={currentSlide} 
+            initial={{ opacity: 0, x: isBackTracking ? -50 : 50 }} 
+            animate={{ opacity: 1, x: 0 }} 
+            exit={{ opacity: 0, x: isBackTracking ? 50 : -50 }} 
+            transition={{ duration: 0.5 }} 
+            className="w-full"
+          >
             {slides[currentSlide].content}
           </motion.div>
         </AnimatePresence>
       </div>
+
       <div className="absolute bottom-10 left-0 w-full flex justify-between px-10 z-40">
-        <button onClick={prevSlide} className="flex items-center gap-2 text-slate-500 hover:text-white font-black uppercase text-xs transition-all"><ChevronLeft /> Back</button>
-        <button onClick={nextSlide} className="flex items-center gap-2 text-slate-500 hover:text-white font-black uppercase text-xs transition-all">Next <ChevronRight /></button>
+        <button 
+          onClick={prevSlide} 
+          disabled={currentSlide === 0}
+          className={`flex items-center gap-2 font-black uppercase text-xs transition-all ${currentSlide === 0 ? 'text-slate-800' : 'text-slate-500 hover:text-white'}`}
+        >
+          <ChevronLeft /> Back
+        </button>
+        
+        {/* Indikator Jika Selesai */}
+        {currentSlide === slides.length - 1 && (
+          <span className="text-[10px] text-emerald-500 font-mono animate-pulse">End of Presentation</span>
+        )}
+
+        <button 
+          onClick={nextSlide} 
+          disabled={currentSlide === slides.length - 1}
+          className={`flex items-center gap-2 font-black uppercase text-xs transition-all ${currentSlide === slides.length - 1 ? 'text-slate-800' : 'text-slate-500 hover:text-white'}`}
+        >
+          Next <ChevronRight />
+        </button>
       </div>
     </div>
   );
